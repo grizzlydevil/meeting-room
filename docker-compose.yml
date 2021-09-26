@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  meeting_room:
+    build: .
+    volumes:
+      - ./meeting_room:/meeting_room
+    ports:
+      - 8000:8000
+    image: meeting_room:meeting_room
+    container_name: meeting_room_container
+    command: python manage.py runserver 0.0.0.0:8000

@@ -131,3 +131,4 @@ dmypy.json
 
 .task
 task/
+lib64

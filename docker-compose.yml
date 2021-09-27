@@ -9,3 +9,14 @@ services:
     image: meeting_room:meeting_room
     container_name: meeting_room_container
     command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postPass
+    container_name: postgres_db

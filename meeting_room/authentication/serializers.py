@@ -1,19 +1,21 @@
 from rest_framework import serializers
 
-from dj_rest_auth.serializers import UserDetailsSerializer
-
-from .models import User
-
-
-class CustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('email', 'first_name', 'last_name')
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import LoginSerializer
 
 
-class UserSerializer(UserDetailsSerializer):
-    user_serializer = CustomUserSerializer()
+class CustomRegisterSerializer(RegisterSerializer):
+
+    username = None
+
+    def get_cleaned_data(self):
+        return {
+            "password1": self.validated_data.get("password1", ""),
+            "email": self.validated_data.get("email", ""),
+        }
 
 
-    class Meta(UserDetailsSerializer.Meta):
-        fields = user_serializer.Meta.fields
+class CustomLoginSerializer(LoginSerializer):
+    """Use default serializer except don't user username"""
+
+    username = None

@@ -59,13 +59,25 @@ REST_FRAMEWORK = {
     ]
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+AUTH_USER_MODEL = 'authentication.User'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+REST_AUTH_SERIALIZERS = {
+    "LOGIN_SERIALIZER": "authentication.serializers.CustomLoginSerializer",
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "authentication.serializers.CustomRegisterSerializer",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

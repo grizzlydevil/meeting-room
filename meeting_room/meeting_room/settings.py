@@ -48,10 +48,12 @@ INSTALLED_APPS = [
 
     'dj_rest_auth',
 
-    'authentication'
+    'authentication',
+    'employee'
 ]
 
 SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.EmailBackend'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

@@ -37,7 +37,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return f'{self.email}'
+        return self.email
 
     def has_perm(self, *args):
         return self.is_staff

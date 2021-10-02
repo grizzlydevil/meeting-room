@@ -1,28 +1,33 @@
-from rest_framework import generics
-from rest_framework import mixins
+from rest_framework import generics, mixins
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import EmployeeSerializer
 from .models import Employee
 
 
-class EmployeeView(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+class EmployeeView(mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
+                   mixins.CreateModelMixin,
                    generics.GenericAPIView):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset != None:
+            return self.update(request, *args, **kwargs)
         return self.create(request, *args, **kwargs)
-
-    # def get(self, request, *args, **kwargs):
-    #     return self.retrieve(request, *args, **kwargs)
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.get(user=self.request.user)
+        return self.queryset.filter(user=self.request.user).first()
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        self.check_object_permissions(self.request, queryset)
+        return queryset

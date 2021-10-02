@@ -17,7 +17,7 @@ class EmployeeView(mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
 
     def put(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        if queryset != None:
+        if queryset is not None:
             return self.update(request, *args, **kwargs)
         return self.create(request, *args, **kwargs)
 

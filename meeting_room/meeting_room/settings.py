@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'dj_rest_auth',
 
     'authentication',
-    'employee'
+    'employee',
+    'meeting_rooms'
 ]
 
 SITE_ID = 1

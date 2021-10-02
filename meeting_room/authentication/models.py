@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
+                                       PermissionsMixin
 
 
 class UserManager(BaseUserManager):
@@ -23,10 +24,8 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=30)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -36,13 +35,12 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.email}'
 
-    def has_perm(self):
-        return self.is_admin
+    def has_perm(self, *args):
+        return self.is_staff
 
-    def has_module_perms(self):
+    def has_module_perms(self, *args):
         return True

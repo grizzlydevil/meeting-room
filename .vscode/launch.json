@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Docker: Python - Django",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "python": {
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceFolder}/meeting_room",
+                        "remoteRoot": "/meeting_room"
+                    }
+                ],
+                "projectType": "django"
+            }
+        }
+    ]
+}

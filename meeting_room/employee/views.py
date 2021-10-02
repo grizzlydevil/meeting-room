@@ -6,8 +6,8 @@ from .serializers import EmployeeSerializer
 from .models import Employee
 
 
-class CreateEmployee(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-    mixins.CreateModelMixin, generics.GenericAPIView):
+class EmployeeView(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                   generics.GenericAPIView):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -15,11 +15,11 @@ class CreateEmployee(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    # def put(self, request, *args, **kwargs):
+    #     return self.update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

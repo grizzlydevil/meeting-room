@@ -1,5 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.conf import settings
+
+from authentication.models import CustomUser
 
 
 class Employee(models.Model):
@@ -14,3 +18,11 @@ class Employee(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+@receiver(post_save, sender=Employee)
+def update_permissions(sender, instance, created, **kwargs):
+    if created:
+        user = CustomUser.objects.get(pk=instance.user.pk)
+        user.is_staff = True
+        user.save()

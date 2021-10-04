@@ -10,6 +10,18 @@ services:
     container_name: meeting_room_container
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
+      - migration
+  migration:
+    command: python manage.py migrate authentication
+    volumes:
+      - ./meeting_room:/meeting_room
+    depends_on:
+      - migration2
+  migration2:
+    command: python manage.py migrate
+    volumes:
+      - ./meeting_room:/meeting_room
+    depends_on:
       - db
   db:
     image: postgres

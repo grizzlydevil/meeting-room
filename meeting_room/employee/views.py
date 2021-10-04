@@ -15,11 +15,11 @@ class EmployeeView(mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        if queryset is not None:
-            return self.update(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

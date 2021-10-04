@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   meetingroom:
-    image: meetingroom
+    image: meeting_room:meeting_room
     build:
       context: .
       dockerfile: ./Dockerfile

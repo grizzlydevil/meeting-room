@@ -14,9 +14,9 @@ services:
   db:
     image: postgres
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/db_postgres
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postPass
-    container_name: postgres_db
+    container_name: db_postgre5

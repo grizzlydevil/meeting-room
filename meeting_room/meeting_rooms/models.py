@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from employee.models import Employee
@@ -18,6 +19,10 @@ class Reservation(models.Model):
     employee = models.ManyToManyField(Employee)
     meeting_room = models.ForeignKey(
         Room, on_delete=models.CASCADE, blank=False, null=False
+    )
+    owner = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
     )
 
     def __str__(self):

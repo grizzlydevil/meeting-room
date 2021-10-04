@@ -19,3 +19,12 @@ class CreateReservationView(generics.ListCreateAPIView):
     def get_queryset(self):
         employee = Employee.objects.get(user=self.request.user)
         return self.queryset.filter(employee=employee)
+
+
+class CancelReservationView(generics.RetrieveDestroyAPIView):
+    permission_classes = (IsAdminUser, IsAuthenticated)
+    queryset = Reservation.objects.all()
+
+    def get_queryset(self):
+        employee = Employee.objects.get(user=self.request.user)
+        return self.queryset.filter(employee=employee)

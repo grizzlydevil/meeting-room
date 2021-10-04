@@ -11,6 +11,14 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ReservationSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField()
+
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+
 class ListCreateReservationSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=True)
     from_date = serializers.DateTimeField(required=True)

@@ -1,7 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from .serializers import RoomSerializer, ListCreateReservationSerializer
+from .serializers import RoomSerializer, ListCreateReservationSerializer,\
+                         ReservationSerializer
 from .models import Reservation
 from employee.models import Employee
 
@@ -24,7 +25,19 @@ class CreateReservationView(generics.ListCreateAPIView):
 class CancelReservationView(generics.RetrieveDestroyAPIView):
     permission_classes = (IsAdminUser, IsAuthenticated)
     queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+
+class RoomReservationsView(generics.ListAPIView):
+    permission_classes = (IsAdminUser, IsAuthenticated)
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
 
     def get_queryset(self):
-        employee = Employee.objects.get(user=self.request.user)
-        return self.queryset.filter(employee=employee)
+        room_reservations = self.queryset.filter(
+            meeting_room=self.kwargs['room']
+        )
+        employee = self.kwargs.get('employee')
+        if employee:
+            room_reservations = room_reservations.filter(employee=employee)
+        return room_reservations

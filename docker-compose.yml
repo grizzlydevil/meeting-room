@@ -10,7 +10,7 @@ services:
     container_name: meeting_room_container
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - migration
+      - migration2
   migration2:
     build: .
     image: meeting_room

@@ -11,18 +11,18 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - migration
-  migration:
-    build: .
-    image: meeting_room
-    command: python manage.py migrate authentication
-    volumes:
-      - ./meeting_room:/meeting_room
-    depends_on:
-      - migration2
   migration2:
     build: .
     image: meeting_room
     command: python manage.py migrate
+    volumes:
+      - ./meeting_room:/meeting_room
+    depends_on:
+      - migration1
+  migration1:
+    build: .
+    image: meeting_room
+    command: python manage.py migrate authentication
     volumes:
       - ./meeting_room:/meeting_room
     depends_on:
